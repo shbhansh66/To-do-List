@@ -5,6 +5,12 @@
 
     let num=1;
 
+    // Load tasks from localStorage on page reload
+window.addEventListener("load", () => {
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    tasks.forEach(task => addTask(task));
+});
+
     btn.addEventListener("click",()=>{
        const taskText = data.value.trim();
 
@@ -20,12 +26,28 @@
     else{
           required.classList.add("hidden");
     }
-         const card=document.createElement("div");
+    
+
+    addTask(taskText)
+         
+// input khali
+// Save task to localStorage
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+tasks.push(taskText);
+localStorage.setItem("tasks", JSON.stringify(tasks));
+
+data.value = '';
+
+    })
+
+
+    function addTask(task){
+        const card=document.createElement("div");
          card.className="w-full p-4 bg-white border-l-4 border-yellow-500 rounded-xl shadow-md flex items-center justify-between transition duration-300 ease-in-out hover:shadow-xl hover:border-yellow-600 hover:-translate-y-0.5 gap-2";
 
          const contain=document.createElement("span");
          contain.classList="text-lg font-medium text-gray-800 break-words flex-1 mr-4 "
-         contain.textContent=`${data.value}`
+         contain.textContent=`${task}`
 
          const count=document.createElement('h1');
          count.className="text-xl"
@@ -50,8 +72,13 @@ container.appendChild(card)
 //  Dalete Card
 button.addEventListener("click",()=>{
     card.remove(); 
+
+     // Remove from localStorage also
+        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        tasks = tasks.filter(t => t !== taskText);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
 })
 
-// input khali
-data.value = '';
-    })
+
+
+    }
