@@ -75,7 +75,7 @@ button.addEventListener("click",()=>{
 
      // Remove from localStorage also
         let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        tasks = tasks.filter(t => t !== taskText);
+        tasks = tasks.filter(t => t !== task);
         localStorage.setItem("tasks", JSON.stringify(tasks));
 })
 
