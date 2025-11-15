@@ -10,7 +10,10 @@
 window.addEventListener("load", () => {
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     tasks.forEach(task => addTask(task));
+    num = tasks.length + 1;
     array_length=tasks.length;
+    remain_task();
+    
 });
 
     btn.addEventListener("click",()=>{
@@ -25,6 +28,7 @@ window.addEventListener("load", () => {
     }
     
     addTask(taskText)
+     remain_task();
          
 // input khali
 // Save task to localStorage
@@ -65,15 +69,28 @@ card.appendChild(button)
 container.appendChild(card)
 
 input.addEventListener("change", () => {
-    // Assuming 'input' is the checkbox element
+    // 1. Visual Update
     if (input.checked) {
         card.classList.add('opacity-60');
     } else {
-       
         card.classList.remove('opacity-60');
     }
+
+    // 2. Data Persistence (MOVED OUTSIDE IF/ELSE)
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    // Assuming 'contain' holds the task text
+    const currentTaskText = card.querySelector('span').textContent.trim(); 
+    
+    let index = tasks.findIndex(t => t.text === currentTaskText); 
+    
+    if (index !== -1) {
+        // 'input.checked' is true if checked, false if unchecked
+        tasks[index].completed = input.checked; 
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+
+    // 3. Status Refresh
     remain_task();
-  
 });
 
 //  Dalete Card
@@ -107,9 +124,9 @@ function remain_task() {
         // Calculate the completion percentage
         percentage = Math.round((completed / total) * 100); 
     }
-    console.log(total);
+   
 
     // 3. Update the display element
     // Ensure you update the text with the calculated percentage
-    completed_task.textContent = `${percentage}%`; 
+    completed_task.textContent = `${percentage}% (${completed}/${total})`; 
 }
