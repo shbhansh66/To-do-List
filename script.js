@@ -14,20 +14,14 @@ window.addEventListener("load", () => {
     btn.addEventListener("click",()=>{
        const taskText = data.value.trim();
 
-   
     if (taskText === "") {
-      
-        
-        
-        required.classList.remove("hidden");
-        
+        required.classList.remove("hidden");  
         return; 
     }
     else{
           required.classList.add("hidden");
     }
     
-
     addTask(taskText)
          
 // input khali
@@ -40,8 +34,7 @@ data.value = '';
 
     })
 
-
-    function addTask(task){
+ function addTask(task){
         const card=document.createElement("div");
          card.className="w-full p-4 bg-white border-l-4 border-yellow-500 rounded-xl shadow-md flex items-center justify-between transition duration-300 ease-in-out hover:shadow-xl hover:border-yellow-600 hover:-translate-y-0.5 gap-2";
 
@@ -69,6 +62,17 @@ card.appendChild(input)
 card.appendChild(button)
 container.appendChild(card)
 
+input.addEventListener("change", () => {
+    // Assuming 'input' is the checkbox element
+    if (input.checked) {
+        card.classList.add('opacity-60');
+    } else {
+       
+        card.classList.remove('opacity-60');
+    }
+    remain_task();
+});
+
 //  Dalete Card
 button.addEventListener("click",()=>{
     card.remove(); 
@@ -78,7 +82,10 @@ button.addEventListener("click",()=>{
         tasks = tasks.filter(t => t !== task);
         localStorage.setItem("tasks", JSON.stringify(tasks));
 })
+}
 
+const completed_task=document.querySelector('.completion_percentage')
 
-
-    }
+function remain_task(){
+     
+}
