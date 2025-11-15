@@ -6,9 +6,11 @@
     let num=1;
 
     // Load tasks from localStorage on page reload
+    let array_length=0;
 window.addEventListener("load", () => {
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     tasks.forEach(task => addTask(task));
+    array_length=tasks.length;
 });
 
     btn.addEventListener("click",()=>{
@@ -71,6 +73,7 @@ input.addEventListener("change", () => {
         card.classList.remove('opacity-60');
     }
     remain_task();
+  
 });
 
 //  Dalete Card
@@ -84,8 +87,28 @@ button.addEventListener("click",()=>{
 })
 }
 
-const completed_task=document.querySelector('.completion_percentage')
+  
 
-function remain_task(){
-     
+const completed_task = document.querySelector('#completion_percentage');
+
+function remain_task() {
+    // 1. Get all task cards
+    
+    
+    // 2. Filter for completed tasks (those with the opacity-60 class)
+    const completedTasks = container.querySelectorAll('.opacity-60'); 
+
+    const total = array_length;
+    const completed = completedTasks.length;
+
+    let percentage = 0;
+    if (total > 0) {
+        // Calculate the completion percentage
+        percentage = Math.round((completed / total) * 100); 
+    }
+    console.log(total);
+
+    // 3. Update the display element
+    // Ensure you update the text with the calculated percentage
+    completed_task.textContent = `${percentage}%`; 
 }
